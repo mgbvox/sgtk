@@ -206,9 +206,9 @@ class ConfigurationResolver(object):
         # Validate if descriptor version token is omitted
         resolve_latest = is_descriptor_version_missing(config_descriptor)
         if (
-                sys.version_info[0] < 3
-                and self._plugin_id == "basic.desktop"
-                and resolve_latest
+            sys.version_info[0] < 3
+            and self._plugin_id == "basic.desktop"
+            and resolve_latest
         ):
             # This will avoid auto update your tk-config-basic configuration to the
             # latest available version when running Python 2.
@@ -223,7 +223,8 @@ class ConfigurationResolver(object):
             # version supporting Python 2 which is maintained in the variable
             # 'MAX_CONFIG_BASIC_PYTHON2_SUPPORTED' in the bootstrap constants.
             log.info(
-                "Using Python version '%s'" % ".".join(str(i) for i in sys.version_info[0:3])
+                "Using Python version '%s'"
+                % ".".join(str(i) for i in sys.version_info[0:3])
             )
             log.debug(
                 "Base configuration descriptor does not have a "
@@ -236,7 +237,8 @@ class ConfigurationResolver(object):
             # supporting Python2
             config_descriptor["version"] = constants.MAX_CONFIG_BASIC_PYTHON2_SUPPORTED
             log.debug(
-                "%s Resolving configuration for latest version supporting Python 2 descriptor %s" % (self, config_descriptor)
+                "%s Resolving configuration for latest version supporting Python 2 descriptor %s"
+                % (self, config_descriptor)
             )
             # create config descriptor
             cfg_descriptor = create_descriptor(
@@ -413,7 +415,6 @@ class ConfigurationResolver(object):
 
         # loop over all pipeline configs
         for pipeline_config in pipeline_configs:
-
             # see if the pipeline configuration we are looking at is relevant. Either of:
             # - Be a match against the resolver's associated plugin id
             # - Be a centralized config associated with the resolver's associated project
@@ -421,7 +422,6 @@ class ConfigurationResolver(object):
             if self._matches_current_plugin_id(
                 pipeline_config
             ) or self._is_centralized_pc_for_current_project(pipeline_config):
-
                 # extract the location information and place in special 'config_descriptor'
                 # field. Note that this may be None if for example the pipeline configuration
                 # is defined for another operating system.
@@ -506,7 +506,6 @@ class ConfigurationResolver(object):
                 )
 
         elif sg_descriptor_uri and not is_centralized_config:
-
             if sg_uploaded_config:
                 log.debug(
                     "Multiple configuration fields defined for pipeline configuration %s. "
@@ -530,7 +529,6 @@ class ConfigurationResolver(object):
             )
 
         elif sg_uploaded_config and not is_centralized_config:
-
             if shotgun_pc_data.get("uploaded_config") and shotgun_pc_data.get(
                 "sg_uploaded_config"
             ):
@@ -578,7 +576,6 @@ class ConfigurationResolver(object):
             )
 
         else:
-
             # If we have neither a uri, nor a path, raise exception
             # to indicate that config is not valid.
             if plugin_ids is None and (sg_descriptor_uri or sg_uploaded_config):
@@ -891,7 +888,9 @@ class ConfigurationResolver(object):
                 "Will use pipeline configuration id '%s'" % pipeline_config_identifier
             )
 
-            log.debug("Requesting pipeline configuration data from Flow Production Tracking...")
+            log.debug(
+                "Requesting pipeline configuration data from Flow Production Tracking..."
+            )
 
             # Fetch the one and only config that matches this id.
             pipeline_config = sg_connection.find_one(
@@ -919,7 +918,9 @@ class ConfigurationResolver(object):
 
             # We couldn't resolve anything from Shotgun, so we'll resolve the configuration using
             # an offline resolve.
-            return self.resolve_not_found_sg_configuration(fallback_config_descriptor, sg_connection)
+            return self.resolve_not_found_sg_configuration(
+                fallback_config_descriptor, sg_connection
+            )
 
         else:
             # Something was found in Shotgun, which means we've also potentially resolved its

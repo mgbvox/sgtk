@@ -9,7 +9,7 @@
 # not expressly granted therein are reserved by Shotgun Software Inc.
 
 import os
-from tank_vendor.six.moves import urllib
+import urllib
 from . import filesystem
 from .platforms import is_linux, is_macos, is_windows
 from .. import LogManager
@@ -157,7 +157,6 @@ class LocalFileStorageManager(object):
                 raise ValueError("Unknown platform: %s" % sgsix.platform)
 
         if generation == cls.CORE_V17:
-
             # previous generation of paths
             if is_macos():
                 if path_type == cls.CACHE:
@@ -308,7 +307,6 @@ class LocalFileStorageManager(object):
             )
 
         else:
-
             # new paths are on the form
             # project 123, config 33:       root/mysite/p123c33
             # project 123 with plugin id:   root/mysite/p123.review.rv

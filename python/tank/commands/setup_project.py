@@ -28,7 +28,6 @@ from .setup_project_core import run_project_setup
 from .setup_project_params import ProjectSetupParameters
 from .interaction import YesToEverythingInteraction
 from tank_vendor.shotgun_api3.lib import sgsix
-from tank_vendor.six.moves import input
 
 
 class SetupProjectAction(Action):
@@ -220,7 +219,6 @@ class SetupProjectAction(Action):
         run_project_setup(log, sg, params)
 
         if params.get_distribution_mode() == ProjectSetupParameters.CENTRALIZED_CONFIG:
-
             config_path = params.get_configuration_location(sgsix.platform)
 
             # if the new project's config has a core descriptor, then we should
@@ -229,7 +227,6 @@ class SetupProjectAction(Action):
             if pipelineconfig_utils.has_core_descriptor(
                 config_path
             ) or pipelineconfig_utils.is_localized(curr_core_path):
-
                 log.info("Localizing Core...")
                 core_localize.do_localize(
                     log,
@@ -324,7 +321,6 @@ class SetupProjectAction(Action):
         if pipelineconfig_utils.has_core_descriptor(
             config_path
         ) or pipelineconfig_utils.is_localized(curr_core_path):
-
             log.info("Localizing Core...")
             core_localize.do_localize(
                 log,
@@ -627,7 +623,6 @@ class SetupProjectAction(Action):
             log.info("")
             storages_valid = True
             for storage_name in params.get_required_storages():
-
                 proj_path = params.preview_project_path(
                     storage_name, proj_name, sgsix.platform
                 )
@@ -635,10 +630,8 @@ class SetupProjectAction(Action):
                 if os.path.exists(proj_path):
                     log.info(" - %s: %s [OK]" % (storage_name, proj_path))
                 else:
-
                     # try to create the folders
                     try:
-
                         old_umask = os.umask(0)
                         try:
                             os.makedirs(proj_path, 0o777)
@@ -953,8 +946,7 @@ class SetupProjectAction(Action):
         mapped_roots = []
 
         # loop over required storage roots
-        for (root_name, root_info) in required_roots.items():
-
+        for root_name, root_info in required_roots.items():
             log.info("%s" % (root_name,))
             log.info("-" * len(root_name))
 
@@ -1060,8 +1052,7 @@ class SetupProjectAction(Action):
         # ---- now we've mapped the roots, and they're all valid, we need to
         #      update the root information on the core wizard
 
-        for (root_name, storage_name) in mapped_roots:
-
+        for root_name, storage_name in mapped_roots:
             root_info = required_roots[root_name]
             storage_data = storage_by_name[storage_name.lower()]
 

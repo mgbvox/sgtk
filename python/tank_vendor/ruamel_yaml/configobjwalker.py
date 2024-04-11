@@ -1,11 +1,10 @@
-
-
 def configobj_walker(cfg):
     """
     walks over a ConfigObj (INI file with comments) generating
     corresponding YAML output (including comments
     """
     from configobj import ConfigObj
+
     assert isinstance(cfg, ConfigObj)
     for c in cfg.initial_comment:
         if c.strip():
@@ -20,32 +19,34 @@ def configobj_walker(cfg):
 
 def _walk_section(s, level=0):
     from configobj import Section
+
     assert isinstance(s, Section)
-    indent = u'  ' * level
+    indent = "  " * level
     for name in s.scalars:
         for c in s.comments[name]:
             yield indent + c.strip()
         x = s[name]
-        if u'\n' in x:
-            i = indent + u'  '
-            x = u'|\n' + i + x.strip().replace(u'\n', u'\n' + i)
-        elif ':' in x:
-            x = u"'" + x.replace(u"'", u"''") + u"'"
-        line = u'{0}{1}: {2}'.format(indent, name, x)
+        if "\n" in x:
+            i = indent + "  "
+            x = "|\n" + i + x.strip().replace("\n", "\n" + i)
+        elif ":" in x:
+            x = "'" + x.replace("'", "''") + "'"
+        line = "{0}{1}: {2}".format(indent, name, x)
         c = s.inline_comments[name]
         if c:
-            line += u' ' + c
+            line += " " + c
         yield line
     for name in s.sections:
         for c in s.comments[name]:
             yield indent + c.strip()
-        line = u'{0}{1}:'.format(indent, name)
+        line = "{0}{1}:".format(indent, name)
         c = s.inline_comments[name]
         if c:
-            line += u' ' + c
+            line += " " + c
         yield line
-        for val in _walk_section(s[name], level=level+1):
+        for val in _walk_section(s[name], level=level + 1):
             yield val
+
 
 ##def config_obj_2_rt_yaml(cfg):
 ##    from .comments import CommentedMap, CommentedSeq

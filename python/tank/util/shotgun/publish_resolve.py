@@ -16,7 +16,7 @@ from __future__ import with_statement
 
 import os
 from tank_vendor.shotgun_api3.lib import sgsix
-from tank_vendor.six.moves import urllib
+import urllib
 import pprint
 
 from .publish_util import get_cached_local_storages
@@ -95,7 +95,6 @@ def resolve_publish_path(tk, sg_publish_data):
         # local file link
         path = __resolve_local_file_link(tk, path_field)
         if path is None:
-
             raise PublishPathNotDefinedError(
                 "Publish %s (id %s) has a local file link that could not be resolved "
                 "on this os platform."
@@ -170,7 +169,6 @@ def __resolve_local_file_link(tk, attachment_data):
     log.debug("Looking for override env var '%s'" % env_var_name)
 
     if env_var_name in os.environ:
-
         log.debug(
             "Detected override %s='%s'" % (env_var_name, os.environ[env_var_name])
         )
@@ -184,7 +182,6 @@ def __resolve_local_file_link(tk, attachment_data):
             )
 
         else:
-
             # we have an override
             override_root = os.environ[env_var_name]
 
@@ -208,7 +205,7 @@ def __resolve_local_file_link(tk, attachment_data):
                 "mac_path": "local_path_mac",
             }
 
-            for (storage_field, path_field) in storage_field_map.items():
+            for storage_field, path_field in storage_field_map.items():
                 this_os_storage_root = storage[storage_field]
                 this_os_full_path = attachment_data[path_field]
 
@@ -401,7 +398,6 @@ def __resolve_url_link(tk, attachment_data):
 
     # now see if the given url starts with any storage def in our setup
     for storage, sg_path in storage_lookup.items():
-
         # go through each storage, see if any of the os
         # path defs for the storage matches the beginning of the
         # url path. Compare lower case (most file systems are case preserving).

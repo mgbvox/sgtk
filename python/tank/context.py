@@ -626,7 +626,6 @@ class Context(object):
 
         # Try to populate fields using paths caches for entity
         if isinstance(template, TemplatePath):
-
             # first, sanity check that we actually have a path cache entry
             # this relates to ticket 22541 where it is possible to create
             # a context object purely from Shotgun without having it in the path cache
@@ -925,7 +924,6 @@ class Context(object):
         fields = {}
         # for any sg query field
         for key in template.keys.values():
-
             # check each key to see if it has shotgun query information that we should resolve
             if key.shotgun_field_name:
                 # this key is a shotgun value that needs fetching!
@@ -977,7 +975,6 @@ class Context(object):
                         processed_val = None
 
                     else:
-
                         # now convert the shotgun value to a string.
                         # note! This means that there is no way currently to create an int key
                         # in a tank template which matches an int field in shotgun, since we are
@@ -1316,14 +1313,14 @@ def _from_entity_type_and_id(tk, entity, source_entity=None):
         context.update(task_context)
 
     elif entity_type in ["PublishedFile", "TankPublishedFile"]:
-
         sg_entity = tk.shotgun.find_one(
             entity_type, [["id", "is", entity_id]], ["project", "entity", "task"]
         )
 
         if sg_entity is None:
             raise TankError(
-                "Entity %s with id %s not found in Flow Production Tracking!" % (entity_type, entity_id)
+                "Entity %s with id %s not found in Flow Production Tracking!"
+                % (entity_type, entity_id)
             )
 
         if sg_entity.get("task"):
@@ -1656,7 +1653,6 @@ def from_path(tk, path, previous_context=None):
         and context.get("entity") == previous_context.entity
         and context.get("additional_entities") == previous_context.additional_entities
     ):
-
         # cool, everything is matching down to the step/task level.
         # if context is missing a step and a task, we try to auto populate it.
         # (note: weird edge that a context can have a task but no step)
@@ -1728,7 +1724,7 @@ def context_yaml_representer(dumper, context):
     # pipeline config path as part of the dict
     context_dict["_pc_path"] = context.tank.pipeline_configuration.get_path()
 
-    return dumper.represent_mapping(u"!TankContext", context_dict)
+    return dumper.represent_mapping("!TankContext", context_dict)
 
 
 def context_yaml_constructor(loader, node):
@@ -1759,7 +1755,7 @@ def context_yaml_constructor(loader, node):
 
 
 yaml.add_representer(Context, context_yaml_representer)
-yaml.add_constructor(u"!TankContext", context_yaml_constructor)
+yaml.add_constructor("!TankContext", context_yaml_constructor)
 
 ################################################################################################
 # utility methods
@@ -1816,7 +1812,9 @@ def _task_from_sg(tk, task_id, additional_fields=None):
         "Task", [["id", "is", task_id]], standard_fields + additional_fields
     )
     if not task:
-        raise TankError("Unable to locate Task with id %s in Flow Production Tracking" % task_id)
+        raise TankError(
+            "Unable to locate Task with id %s in Flow Production Tracking" % task_id
+        )
 
     # add task so it can be processed with other shotgun entities
     task["task"] = {"type": "Task", "id": task_id, "name": task["content"]}
@@ -1876,7 +1874,8 @@ def _entity_from_sg(tk, entity_type, entity_id):
 
     if not data:
         raise TankError(
-            "Unable to locate %s with id %s in Flow Production Tracking" % (entity_type, entity_id)
+            "Unable to locate %s with id %s in Flow Production Tracking"
+            % (entity_type, entity_id)
         )
 
     # create context
@@ -1993,7 +1992,6 @@ def _values_from_path_cache(entity, cur_template, path_cache, required_fields):
     remove_keys = set()
 
     for path in entity_paths:
-
         # validate path and get fields:
         path_fields = cur_template.validate_and_get_fields(
             path, required_fields=required_fields

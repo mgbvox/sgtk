@@ -49,7 +49,10 @@ except ImportError:
     # environment.
     UsernamePasswordDialog = None
 
-from tank_vendor.six.moves.urllib.parse import urlencode
+try:
+    from tank_vendor.six.moves.urllib.parse import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 
 # Error messages for events.
 HTTP_CANT_CONNECT_TO_SHOTGUN = "Cannot Connect To PTR site."
@@ -336,7 +339,9 @@ class SsoSaml2Core(object):
                     When a link leading to a new window/tab is clicked, this method is
                     called.
                     """
-                    get_logger().debug("TKWebPageQtWebEngine.createWindow: %s", window_type)
+                    get_logger().debug(
+                        "TKWebPageQtWebEngine.createWindow: %s", window_type
+                    )
                     # Here we return a new page with no profile, that will be used solely
                     # to trigger the call to the external browser.
                     return TKWebPageQtWebEngine(None, self.parent())

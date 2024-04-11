@@ -69,8 +69,7 @@ class Environment(object):
         return "Environment %s" % os.path.basename(self._env_path)
 
     def _refresh(self):
-        """Refreshes the environment data from disk
-        """
+        """Refreshes the environment data from disk"""
         data = self.__load_environment_data()
 
         self._env_data = environment_includes.process_includes(
@@ -235,7 +234,7 @@ class Environment(object):
                 constants.ENVIRONMENT_LOCATION_KEY
             )
 
-        for (eng, app) in self.__app_settings:
+        for eng, app in self.__app_settings:
             descriptor_dict = self.__app_settings[(eng, app)].get(
                 constants.ENVIRONMENT_LOCATION_KEY
             )
@@ -325,7 +324,7 @@ class Environment(object):
 
         apps = []
         engine_app_tuples = list(self.__app_settings.keys())
-        for (engine_name, app_name) in engine_app_tuples:
+        for engine_name, app_name in engine_app_tuples:
             if engine_name == engine:
                 apps.append(app_name)
         return apps
@@ -1404,7 +1403,6 @@ class WritableEnvironment(InstalledEnvironment):
 
         # process each of the engines for the environment
         for engine_name in self.get_engines():
-
             # only process settings in this file
             (tokens, engine_file) = self.find_location_for_engine(engine_name)
             if not engine_file == self._env_path:
@@ -1437,7 +1435,6 @@ class WritableEnvironment(InstalledEnvironment):
 
             # processing all the installed apps
             for app_name in self.get_apps(engine_name):
-
                 # only process settings in this file
                 (tokens, app_file) = self.find_location_for_app(engine_name, app_name)
                 if not app_file == self._env_path:
@@ -1470,7 +1467,6 @@ class WritableEnvironment(InstalledEnvironment):
 
         # processing all the frameworks
         for fw_name in self.get_frameworks():
-
             # only process settings in this file
             (tokens, fw_file) = self.find_location_for_framework(fw_name)
             if not fw_file == self._env_path:
@@ -1537,7 +1533,6 @@ class WritableEnvironment(InstalledEnvironment):
 
         # check each key defined in the schema
         for setting_name in schema.keys():
-
             # this setting's schema
             setting_schema = schema[setting_name]
 
@@ -1547,7 +1542,6 @@ class WritableEnvironment(InstalledEnvironment):
             )
 
             if setting_name in settings and transform == self.STRIP_DEFAULTS:
-
                 # the setting is in the environment and we are removing default
                 # values. see if the value is a default.
 
@@ -1558,7 +1552,6 @@ class WritableEnvironment(InstalledEnvironment):
                 setting_type = setting_schema["type"]
 
                 if setting_value == schema_default:
-
                     # the setting value matches the schema default. remove the
                     # setting.
                     del settings[setting_name]
@@ -1570,7 +1563,6 @@ class WritableEnvironment(InstalledEnvironment):
                     modified = True
 
             elif setting_name not in settings and transform == self.INCLUDE_DEFAULTS:
-
                 # the setting is not in the environment and we are including
                 # default values. need to add it.
 
@@ -1587,7 +1579,6 @@ class WritableEnvironment(InstalledEnvironment):
                 and hasattr(settings, "yaml_add_eol_comment")
                 and setting_name in settings
             ):
-
                 if schema_default == settings[setting_name]:
                     # The value of the setting matches the default value in the
                     # manifest.

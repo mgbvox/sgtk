@@ -18,6 +18,7 @@ from .qt_abstraction import QtGui, QtCore, qt_version_tuple
 
 # If we're on Qt4, we want the placeholder in the login dialog.
 if qt_version_tuple[0] == 4:
+
     class Qt5LikeLineEdit(QtGui.QLineEdit):
         """
         QLineEdit that shows a placeholder in an empty editor, even if the widget is focused.
@@ -44,13 +45,14 @@ if qt_version_tuple[0] == 4:
 
             # If the box is empty and focused, draw the placeholder
             if self.hasFocus() and not self.text() and self.placeholderText():
-
                 p = QtGui.QPainter(self)
                 pal = self.palette()
 
                 panel = QtGui.QStyleOptionFrameV2()
                 self.initStyleOption(panel)
-                r = self.style().subElementRect(QtGui.QStyle.SE_LineEditContents, panel, self)
+                r = self.style().subElementRect(
+                    QtGui.QStyle.SE_LineEditContents, panel, self
+                )
 
                 text_margins = self.textMargins()
 
@@ -63,7 +65,9 @@ if qt_version_tuple[0] == 4:
 
                 fm = self.fontMetrics()
 
-                visual_alignment = QtGui.QStyle.visualAlignment(self.layoutDirection(), QtCore.Qt.AlignLeft)
+                visual_alignment = QtGui.QStyle.visualAlignment(
+                    self.layoutDirection(), QtCore.Qt.AlignLeft
+                )
                 vertical_alignment = visual_alignment & QtCore.Qt.AlignVertical_Mask
 
                 if vertical_alignment == QtCore.Qt.AlignBottom:
@@ -77,7 +81,7 @@ if qt_version_tuple[0] == 4:
                     r.x() + self._horizontal_margin,
                     vscroll,
                     r.width() - 2 * self._horizontal_margin,
-                    fm.height()
+                    fm.height(),
                 )
 
                 min_left_bearing = max(0, -fm.minLeftBearing())
@@ -88,9 +92,12 @@ if qt_version_tuple[0] == 4:
                 p.setPen(col)
                 line_rect.adjust(min_left_bearing, 0, 0, 0)
 
-                elided_text = fm.elidedText(self.placeholderText(), QtCore.Qt.ElideRight, line_rect.width())
+                elided_text = fm.elidedText(
+                    self.placeholderText(), QtCore.Qt.ElideRight, line_rect.width()
+                )
                 p.drawText(line_rect, vertical_alignment, elided_text)
                 p.setPen(oldpen)
+
 else:
     # Qt5 always has the placeholder.
     Qt5LikeLineEdit = QtGui.QLineEdit

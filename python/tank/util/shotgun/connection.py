@@ -16,7 +16,7 @@ from __future__ import with_statement
 
 import os
 import threading
-from tank_vendor.six.moves import urllib
+import urllib
 
 # use api json to cover py 2.5
 from tank_vendor import shotgun_api3

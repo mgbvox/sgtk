@@ -590,7 +590,6 @@ class ToolkitManager(object):
             )
 
         if AsyncBootstrapWrapper:
-
             # Bootstrap an Sgtk instance asynchronously in a background thread,
             # followed by launching the engine synchronously in the main application thread.
 
@@ -600,28 +599,23 @@ class ToolkitManager(object):
             self._bootstrapper.bootstrap()
 
         else:
-
             # Since Qt is not available, fall back on synchronous bootstrapping.
             # Execute the whole engine bootstrap logic synchronously in the main application thread,
             # while still calling the provided callbacks in order for the caller to work as expected.
 
             try:
-
                 tk = self._bootstrap_sgtk(engine_name, entity)
 
             except Exception as exception:
-
                 # Handle cleanup after failed completion of the toolkit bootstrap.
                 failed_callback(self.TOOLKIT_BOOTSTRAP_PHASE, exception)
 
                 return
 
             try:
-
                 engine = self._start_engine(tk, engine_name, entity)
 
             except Exception as exception:
-
                 # Handle cleanup after failed completion of the engine startup.
                 failed_callback(self.ENGINE_STARTUP_PHASE, exception)
 
@@ -1000,7 +994,9 @@ class ToolkitManager(object):
 
         elif self._do_shotgun_config_lookup:
             # do the full resolve where we connect to shotgun etc.
-            log.debug("Checking for pipeline configuration overrides in Flow Production Tracking.")
+            log.debug(
+                "Checking for pipeline configuration overrides in Flow Production Tracking."
+            )
             log.debug(
                 "In order to turn this off, set do_shotgun_config_lookup to False"
             )

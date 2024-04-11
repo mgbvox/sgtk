@@ -15,8 +15,8 @@ Base class for Abstract classes for Engines, Apps and Frameworks
 
 import os
 import sys
-import imp
 import uuid
+from importlib import util, machinery
 
 from .. import hook
 from ..util import sgre as re
@@ -285,7 +285,6 @@ class TankBundle(object):
         """
         # this method is memoized for performance since it is being called a lot!
         if self.__cache_location.get("site") is None:
-
             self.__cache_location["site"] = self.__tk.execute_core_hook_method(
                 constants.CACHE_LOCATION_HOOK_NAME,
                 "get_bundle_data_cache_path",
@@ -443,7 +442,6 @@ class TankBundle(object):
         ImportStack.push_current_bundle(self)
 
         try:
-
             # get the python folder
             python_folder = os.path.join(
                 self.disk_location, constants.BUNDLE_PYTHON_FOLDER
@@ -458,9 +456,25 @@ class TankBundle(object):
                 self.log_debug("Importing python modules in %s..." % python_folder)
                 # alias the python folder with a UID to ensure it is unique every time it is imported
                 self.__module_uid = "tkimp%s" % uuid.uuid4().hex
-                imp.load_module(
-                    self.__module_uid, None, python_folder, ("", "", imp.PKG_DIRECTORY)
+
+                # Create a loader for the specified folder (treated as a package)
+                finder = machinery.FileFinder(
+                    python_folder, (machinery.SourceFileLoader, [".py"])
                 )
+
+                # Find a spec for the package name given the finder
+                spec = finder.find_spec(self.__module_uid)
+                if spec is None:
+                    raise ImportError(
+                        f"No module named '{self.__module_uid}' could be found in the specified directory."
+                    )
+
+                # Create a new module based on the spec
+                module = util.module_from_spec(spec)
+                sys.modules[self.__module_uid] = module
+
+                # Execute the module (run its code)
+                spec.loader.exec_module(module)
 
             # we can now find our actual module in sys.modules as GUID.module_name
             mod_name = "%s.%s" % (self.__module_uid, module_name)
@@ -492,7 +506,6 @@ class TankBundle(object):
         """
         # this method is memoized for performance since it is being called a lot!
         if self.__cache_location.get(project_id) is None:
-
             self.__cache_location[project_id] = self.__tk.execute_core_hook_method(
                 constants.CACHE_LOCATION_HOOK_NAME,
                 "get_bundle_data_cache_path",
@@ -1005,7 +1018,6 @@ class TankBundle(object):
                 )
 
             if default_value:  # possible not to have a default value!
-
                 # expand the default value to be referenced from {self} and with the .py suffix
                 # for backwards compatibility with the old syntax where the default value could
                 # just be 'hook_name' with implicit '{self}' and no suffix!
@@ -1124,7 +1136,7 @@ def _post_process_settings_r(tk, key, value, schema, bundle=None):
         items = schema.get("items", {})
         # note - we assign the original values here because we
         processed_val = value
-        for (key, value_schema) in items.items():
+        for key, value_schema in items.items():
             processed_val[key] = _post_process_settings_r(
                 tk=tk, key=key, value=value[key], schema=value_schema, bundle=bundle
             )

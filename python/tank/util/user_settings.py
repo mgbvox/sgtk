@@ -13,7 +13,7 @@ User settings management.
 """
 
 import os
-from tank_vendor.six.moves import configparser
+import configparser
 from tank_vendor import six
 
 from .local_file_storage import LocalFileStorageManager

@@ -32,9 +32,7 @@ class SwitchAppAction(Action):
         )
 
     def run_interactive(self, log, args):
-
         if len(args) < 4:
-
             log.info(
                 "This command allows you to easily switch an app between different "
                 "locations. A location defines where toolkit picks and synchrononizes "
@@ -203,13 +201,13 @@ class SwitchAppAction(Action):
         log.info("")
         log.info("Current version")
         log.info("------------------------------------")
-        for (k, v) in descriptor.get_dict().items():
+        for k, v in descriptor.get_dict().items():
             log.info(" - %s: %s" % (k.capitalize(), v))
 
         log.info("")
         log.info("New version")
         log.info("------------------------------------")
-        for (k, v) in new_descriptor.get_dict().items():
+        for k, v in new_descriptor.get_dict().items():
             log.info(" - %s: %s" % (k.capitalize(), v))
 
         log.info("")

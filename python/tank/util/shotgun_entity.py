@@ -131,7 +131,6 @@ class EntityExpression(object):
         # Extract and store a bunch of data for each variation.
         self._variations = {}
         for expr_variation in expr_variations:
-
             try:
                 # find all field names, for example:
                 # "{xx}_{yy}_{zz.xx}" ----> ["xx", "yy", "zz.xx"]
@@ -336,7 +335,6 @@ class EntityExpression(object):
 
         # first make sure that each field is valid
         for field_def in field_defs:
-
             full_sg_field_name = field_def["full_field_name"]
             token = field_def["token"]
 
@@ -429,7 +427,7 @@ class EntityExpression(object):
         match = regex_obj.match(value_to_convert)
         if match is None:
             # no match. return empty string
-            resolved_value = u""
+            resolved_value = ""
         else:
             # we have a match object. concatenate the groups
             resolved_value = "".join(match.groups())

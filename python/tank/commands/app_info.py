@@ -86,7 +86,6 @@ class AppInfoAction(Action):
         log.info("")
 
     def _env_breakdown(self, log, env_name):
-
         log.info("")
         log.info("")
         log.info("=" * 70)
@@ -108,7 +107,7 @@ class AppInfoAction(Action):
                 descriptor = env.get_app_descriptor(eng, app)
                 log.info("App %s" % app)
                 log.info("-" * (4 + len(app)))
-                for (k, v) in descriptor.get_dict().items():
+                for k, v in descriptor.get_dict().items():
                     log.info(" %s: %s" % (k.capitalize(), v))
                 log.info(" Docs: %s" % descriptor.documentation_url)
                 log.info("")

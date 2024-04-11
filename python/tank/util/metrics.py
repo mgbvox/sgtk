@@ -22,7 +22,7 @@ are not part of the public Sgtk API.
 from collections import deque
 from threading import Event, Thread, Lock
 import platform
-from tank_vendor.six.moves import urllib
+import urllib
 from tank_vendor import six
 from copy import deepcopy
 
@@ -208,7 +208,6 @@ class MetricsQueueSingleton(object):
 
         # create the queue instance if it hasn't been created already
         if not cls.__instance:
-
             # remember the instance so that no more are created
             metrics_queue = super(MetricsQueueSingleton, cls).__new__(
                 cls, *args, **kwargs
@@ -276,7 +275,6 @@ class MetricsQueueSingleton(object):
 
             # there are pending metrics
             if num_pending:
-
                 # determine how many metrics to retrieve
                 if not count or count > num_pending:
                     count = num_pending
@@ -425,7 +423,6 @@ class MetricsDispatchWorkerThread(Thread):
 
         # Run until halted
         while not self._halt_event.is_set():
-
             # get the next available metric and dispatch it
             try:
                 # For each dispatch cycle, we empty the queue to prevent

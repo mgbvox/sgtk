@@ -224,7 +224,6 @@ class ProjectSetupParameters(object):
         #  }
 
         for storage_name in storage_data:
-
             if not storage_data[storage_name]["defined_in_shotgun"]:
                 raise TankError(
                     "The storage '%s' required by the configuration has not been defined in Flow Production Tracking. "
@@ -440,7 +439,6 @@ class ProjectSetupParameters(object):
             # these are resolved at bootstrap time.
             roots_data = {}
             for storage_name in self.get_required_storages():
-
                 # for distributed configs, we don't include any paths
                 roots_data[storage_name] = {
                     "windows_path": None,
@@ -930,7 +928,6 @@ class ProjectSetupParameters(object):
             # as the pipeline config location. That will confuse tank.
             config_path_current_os = self.get_configuration_location(sgsix.platform)
             for storage_name in self.get_required_storages():
-
                 # get the project path for this storage
                 # note! at this point, the storage root has been checked and exists on disk.
                 project_path_local_os = self.get_project_path(
@@ -946,7 +943,6 @@ class ProjectSetupParameters(object):
 
         # validate the local storages
         for storage_name in self.get_required_storages():
-
             # get the project path for this storage
             # note! at this point, the storage root has been checked and exists on disk.
             project_path_local_os = self.get_project_path(storage_name, sgsix.platform)
@@ -962,7 +958,6 @@ class ProjectSetupParameters(object):
         # the core we are trying to marry up with the config is recent enough
         required_core_version = self._config_template.get_required_core_version()
         if required_core_version:
-
             # now figure out the version of the desired API
             api_location = self.get_associated_core_path(sgsix.platform)
             curr_core_version = pipelineconfig_utils.get_core_api_version(api_location)
@@ -1282,7 +1277,6 @@ class TemplateConfiguration(object):
 
         # process each required storage root and populate the info dict
         for root_name, root_info in self._storage_roots:
-
             # description
             storage_info[root_name] = {"description": root_info.get("description")}
 

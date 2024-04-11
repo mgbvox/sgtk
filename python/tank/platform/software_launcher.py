@@ -424,7 +424,6 @@ class SoftwareLauncher(object):
         # matched components via the regex
         matches = []
         for matching_path in matching_paths:
-
             self.logger.debug("Processing path: %s" % (matching_path,))
 
             match = executable_regex.match(matching_path)

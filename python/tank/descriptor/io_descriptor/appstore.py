@@ -13,9 +13,9 @@ Toolkit App Store Descriptor.
 """
 
 import os
-from tank_vendor.six.moves import urllib
+import urllib
 import fnmatch
-from tank_vendor.six.moves import http_client
+import http.client as http_client
 from tank_vendor.shotgun_api3.lib import httplib2
 
 from ...util import shotgun
@@ -494,7 +494,7 @@ class IODescriptorAppStore(IODescriptorDownloadable):
             # the sought-after label
             version_numbers = []
             log.debug("culling out versions not labelled '%s'..." % self._label)
-            for (version_str, path) in all_versions.items():
+            for version_str, path in all_versions.items():
                 metadata = self.__load_cached_app_store_metadata(path)
                 try:
                     tags = [x["name"] for x in metadata["sg_version_data"]["tags"]]
@@ -612,7 +612,10 @@ class IODescriptorAppStore(IODescriptorDownloadable):
             limit=limit,
         )
 
-        log.debug("Downloaded data for %d versions from Flow Production Tracking." % len(sg_versions))
+        log.debug(
+            "Downloaded data for %d versions from Flow Production Tracking."
+            % len(sg_versions)
+        )
 
         # now filter out all labels that aren't matching
         matching_records = []
@@ -632,7 +635,6 @@ class IODescriptorAppStore(IODescriptorDownloadable):
 
         # and filter out based on version constraint
         if constraint_pattern:
-
             version_numbers = [x.get("code") for x in matching_records]
             version_to_use = self._find_latest_tag_by_pattern(
                 version_numbers, constraint_pattern
@@ -732,7 +734,6 @@ class IODescriptorAppStore(IODescriptorDownloadable):
         sg_url = self._sg_connection.base_url
 
         if sg_url not in self._app_store_connections:
-
             # Connect to associated Shotgun site and retrieve the credentials to use to
             # connect to the app store site
             try:

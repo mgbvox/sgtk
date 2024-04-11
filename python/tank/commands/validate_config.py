@@ -85,9 +85,7 @@ class ValidateConfigAction(Action):
 
         log.info("")
         log.info("")
-        log.info(
-            "Welcome to the Flow Production Tracking Configuration validator!"
-        )
+        log.info("Welcome to the Flow Production Tracking Configuration validator!")
         log.info("")
 
         log.info("Found the following environments:")
@@ -256,7 +254,6 @@ class ValidateConfigAction(Action):
                 log.info("  WARNING - Parameter not needed: %s" % s)
 
         for s in manifest.keys():
-
             default = bundle.resolve_default_value(manifest[s], engine_name=engine_name)
 
             if s in settings:

@@ -13,7 +13,7 @@ import os
 from .. import LogManager
 from .unicode import ensure_contains_str
 
-from tank_vendor.six.moves import cPickle
+import pickle as cPickle
 from tank_vendor import six
 
 
@@ -55,7 +55,10 @@ def dumps(data):
     except UnicodeError as e:
         # Fix unicode issue when ensuring string values
         # https://jira.autodesk.com/browse/SG-6588
-        if e.encoding == "utf-8" and e.reason in ("invalid continuation byte", "invalid start byte"):
+        if e.encoding == "utf-8" and e.reason in (
+            "invalid continuation byte",
+            "invalid start byte",
+        ):
             encoding = FALLBACK_ENCODING
             if isinstance(data, dict):
                 data[FALLBACK_ENCODING_KEY] = encoding

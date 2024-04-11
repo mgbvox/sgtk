@@ -18,7 +18,6 @@ from . import constants
 from .errors import TankError
 from .util import sgre as re
 from tank_vendor import six
-from tank_vendor.six.moves import zip
 
 
 class TemplateKey(object):
@@ -521,7 +520,7 @@ class StringKey(TemplateKey):
             if match is None:
                 # no match. return empty string
                 # validate should prevent this from happening
-                resolved_value = u""
+                resolved_value = ""
 
             elif self._subset_format:
                 # we have an explicit format string we want to apply to the
@@ -1097,7 +1096,6 @@ class SequenceKey(IntegerKey):
         )
 
     def validate(self, value):
-
         # use a std error message
         full_format_strings = [
             "%s %s" % (self.FRAMESPEC_FORMAT_INDICATOR, x)
@@ -1141,7 +1139,6 @@ class SequenceKey(IntegerKey):
             return super(SequenceKey, self).validate(value)
 
     def _as_string(self, value):
-
         if isinstance(value, six.string_types) and value.startswith(
             self.FRAMESPEC_FORMAT_INDICATOR
         ):
@@ -1163,7 +1160,6 @@ class SequenceKey(IntegerKey):
         return super(SequenceKey, self)._as_string(value)
 
     def _as_value(self, str_value):
-
         if str_value in self._frame_specs:
             return str_value
 

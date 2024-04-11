@@ -94,7 +94,6 @@ class InteractiveShellAction(Action):
         self.wants_running_shell_engine = True
 
     def run_interactive(self, log, args):
-
         if len(args) != 0:
             raise TankError("This command takes no arguments!")
 

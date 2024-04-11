@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-__all__ = ['BaseLoader', 'SafeLoader', 'Loader', 'RoundTripLoader']
+__all__ = ["BaseLoader", "SafeLoader", "Loader", "RoundTripLoader"]
 
 from .reader import *
 from .scanner import *
@@ -10,8 +10,7 @@ from .constructor import *
 from .resolver import *
 
 
-class BaseLoader(Reader, Scanner, Parser, Composer, BaseConstructor,
-                 BaseResolver):
+class BaseLoader(Reader, Scanner, Parser, Composer, BaseConstructor, BaseResolver):
     def __init__(self, stream):
         Reader.__init__(self, stream)
         Scanner.__init__(self)
@@ -32,7 +31,6 @@ class SafeLoader(Reader, Scanner, Parser, Composer, SafeConstructor, Resolver):
 
 
 class Loader(Reader, Scanner, Parser, Composer, Constructor, Resolver):
-
     def __init__(self, stream):
         Reader.__init__(self, stream)
         Scanner.__init__(self)
@@ -42,8 +40,9 @@ class Loader(Reader, Scanner, Parser, Composer, Constructor, Resolver):
         Resolver.__init__(self)
 
 
-class RoundTripLoader(Reader, RoundTripScanner, Parser,
-                      Composer, RoundTripConstructor, Resolver):
+class RoundTripLoader(
+    Reader, RoundTripScanner, Parser, Composer, RoundTripConstructor, Resolver
+):
     def __init__(self, stream):
         Reader.__init__(self, stream)
         RoundTripScanner.__init__(self)

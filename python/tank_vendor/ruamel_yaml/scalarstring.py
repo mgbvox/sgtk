@@ -15,8 +15,9 @@ class PreservedScalarString(ScalarString):
     def __new__(cls, value):
         return ScalarString.__new__(cls, value)
 
+
 def preserve_literal(s):
-    return PreservedScalarString(s.replace('\r\n', '\n').replace('\r', '\n'))
+    return PreservedScalarString(s.replace("\r\n", "\n").replace("\r", "\n"))
 
 
 def walk_tree(base):
@@ -27,17 +28,16 @@ def walk_tree(base):
     """
     from .compat import string_types
 
-
     if isinstance(base, dict):
         for k in base:
             v = base[k]
-            if isinstance(v, string_types) and '\n' in v:
+            if isinstance(v, string_types) and "\n" in v:
                 base[k] = preserve_literal(v)
             else:
                 walk_tree(v)
     elif isinstance(base, list):
         for idx, elem in enumerate(base):
-            if isinstance(elem, string_types) and '\n' in elem:
+            if isinstance(elem, string_types) and "\n" in elem:
                 print(elem)
                 base[idx] = preserve_literal(elem)
             else:

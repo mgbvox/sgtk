@@ -8,8 +8,9 @@
 # agreement to the Shotgun Pipeline Toolkit Source Code License. All rights
 # not expressly granted therein are reserved by Shotgun Software Inc.
 
+
 import logging
-from tank_vendor.six.moves import queue
+import queue
 import sys
 
 

@@ -268,7 +268,6 @@ def _run_centralized_project_setup(log, sg, setup_params):
     roots_data = {}
     default_storage_name = setup_params.default_storage_name
     for storage_name in setup_params.get_required_storages():
-
         roots_data[storage_name] = {
             "windows_path": setup_params.get_storage_path(storage_name, "win32"),
             "linux_path": setup_params.get_storage_path(storage_name, "linux2"),
@@ -448,7 +447,6 @@ def _run_centralized_project_setup(log, sg, setup_params):
     # pass 1 - populate list of all descriptors
     descriptors = []
     for env_name in pc.get_environments():
-
         env_obj = pc.get_environment(env_name)
 
         for engine in env_obj.get_engines():
@@ -463,7 +461,6 @@ def _run_centralized_project_setup(log, sg, setup_params):
     # pass 2 - download all apps
     num_descriptors = len(descriptors)
     for idx, descriptor in enumerate(descriptors):
-
         # note that we push percentages here to the progress bar callback
         # going from 0 to 100
         progress = (int)((float)(idx) / (float)(num_descriptors) * 100)

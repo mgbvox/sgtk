@@ -17,15 +17,24 @@ _package_data = dict(
     install_requires=dict(
         any=["ruamel.base>=1.0.0"],
         py26=["ruamel.ordereddict"],
-        py27=["ruamel.ordereddict"]
+        py27=["ruamel.ordereddict"],
     ),
-    ext_modules=[ dict(
-        name="_ruamel_yaml",
-        src=["ext/_ruamel_yaml.c", "ext/api.c", "ext/writer.c", "ext/dumper.c",
-                "ext/loader.c", "ext/reader.c", "ext/scanner.c", "ext/parser.c",
-                "ext/emitter.c"],
-        lib=[],
-        test="#include <yaml.h>\n\nint main(int argc, char* argv[])\n{\nyaml_parser_t parser;\nparser = parser;  /* prevent warning */\nreturn 0;\n}\n"  # NOQA
+    ext_modules=[
+        dict(
+            name="_ruamel_yaml",
+            src=[
+                "ext/_ruamel_yaml.c",
+                "ext/api.c",
+                "ext/writer.c",
+                "ext/dumper.c",
+                "ext/loader.c",
+                "ext/reader.c",
+                "ext/scanner.c",
+                "ext/parser.c",
+                "ext/emitter.c",
+            ],
+            lib=[],
+            test="#include <yaml.h>\n\nint main(int argc, char* argv[])\n{\nyaml_parser_t parser;\nparser = parser;  /* prevent warning */\nreturn 0;\n}\n",  # NOQA
         )
     ],
     classifiers=[
@@ -36,8 +45,8 @@ _package_data = dict(
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Text Processing :: Markup"
-    ]
+        "Topic :: Text Processing :: Markup",
+    ],
 )
 
 
@@ -49,25 +58,26 @@ def _convert_version(tup):
     for x in tup[1:]:
         if isinstance(x, int):
             ret_val += next_sep + str(x)
-            next_sep = '.'
+            next_sep = "."
             continue
         first_letter = x[0].lower()
-        next_sep = ''
-        if first_letter in 'abcr':
-            ret_val += 'rc' if first_letter == 'r' else first_letter
-        elif first_letter in 'pd':
-            ret_val += '.post' if first_letter == 'p' else '.dev'
+        next_sep = ""
+        if first_letter in "abcr":
+            ret_val += "rc" if first_letter == "r" else first_letter
+        elif first_letter in "pd":
+            ret_val += ".post" if first_letter == "p" else ".dev"
     return ret_val
 
 
 # <
-version_info = _package_data['version_info']
+version_info = _package_data["version_info"]
 __version__ = _convert_version(version_info)
 
 del _convert_version
 
 try:
     from .cyaml import *
+
     __with_libyaml__ = True
 except ImportError:
     __with_libyaml__ = False
@@ -76,5 +86,3 @@ import sys
 
 # body extracted to main.py
 from .main import *
-
-

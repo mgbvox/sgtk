@@ -27,7 +27,7 @@ from . import pipelineconfig_utils
 from . import pipelineconfig_factory
 from . import LogManager
 from tank_vendor import six
-from tank_vendor.six.moves import zip
+
 
 log = LogManager.get_logger(__name__)
 
@@ -706,7 +706,6 @@ class Sgtk(object):
         # and add the leaf level if necessary
         abstract_paths = set()
         for found_file in found_files:
-
             cur_fields = search_template.get_fields(found_file)
 
             # pass 1 - go through the fields for this file and

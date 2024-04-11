@@ -10,7 +10,7 @@
 
 import os
 from sgtk.util import sgre as re
-from tank_vendor.six.moves import urllib
+import urllib
 
 import sgtk
 from sgtk.descriptor import Descriptor

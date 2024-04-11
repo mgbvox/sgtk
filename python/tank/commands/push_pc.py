@@ -22,7 +22,7 @@ from ..util import ShotgunPath
 import os
 import datetime
 import shutil
-from tank_vendor.six.moves import input
+
 
 # Core configuration files which are associated with the core API installation and not
 # the pipeline configuration.
@@ -283,7 +283,6 @@ class PushPCAction(Action):
         # I/O phase
         old_umask = os.umask(0)
         try:
-
             # copy to temp location
             try:
                 # copy everything!

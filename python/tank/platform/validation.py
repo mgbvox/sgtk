@@ -184,7 +184,6 @@ def validate_and_return_frameworks(descriptor, environment):
         min_version_satisfied = True
 
         for fw_instance_name, fw_desc in fw_descriptors.items():
-
             # We've found a matching framework.
             if fw_instance_name == desired_fw_instance:
                 # Now we need to see if there's a minimum required version
@@ -232,7 +231,7 @@ def validate_and_return_frameworks(descriptor, environment):
         #     location: {name: tk-framework-qtwidgets, type: app_store, version: v1.3.34}
         #
         # note: this old form does not handle the 1.x.x syntax, only exact version numbers
-        for (fw_instance_name, fw_instance) in fw_descriptors.items():
+        for fw_instance_name, fw_instance in fw_descriptors.items():
             if (
                 fw_instance.version == version
                 and fw_instance.system_name == required_fw_name
@@ -371,7 +370,6 @@ class _SchemaValidator:
         ]
 
         for default_value_key in default_value_keys:
-
             # validate the default value:
             default_value = schema[default_value_key]
 
@@ -436,7 +434,6 @@ class _SchemaValidator:
             self.__validate_schema_value(settings_key, value_schema)
 
     def __validate_schema_template(self, settings_key, schema):
-
         # new style template def: if there is a fields key, it should be a str
         if "fields" in schema and type(schema["fields"]) != str:
             params = (settings_key, self._display_name)
@@ -602,7 +599,7 @@ class _SettingsValidator:
 
     def __validate_settings_dict(self, settings_key, schema, value):
         items = schema.get("items", {})
-        for (key, value_schema) in items.items():
+        for key, value_schema in items.items():
             # Check for required keys
             if not key in value:
                 params = (key, settings_key, self._display_name)
@@ -614,7 +611,6 @@ class _SettingsValidator:
             self.__validate_settings_value(settings_key, value_schema, value[key])
 
     def __validate_settings_template(self, settings_key, schema, template_name):
-
         # look it up in the master file
         cur_template = self._tank_api.templates.get(template_name)
         if cur_template is None:
@@ -626,7 +622,6 @@ class _SettingsValidator:
             )
 
         if "fields" in schema:
-
             #################################################################################
             # NEW SCHOOL VALIDATION USING fields: context, foo, bar, [baz]
             #
@@ -647,7 +642,6 @@ class _SettingsValidator:
                 raise TankError(msg)
 
         else:
-
             #################################################################################
             # OLD SCHOOL VALIDATION USING required_fields, optional_fields etc.
 
@@ -758,7 +752,6 @@ class _SettingsValidator:
         hook_paths_to_validate = []
 
         for hook_path in hook_value.split(":"):
-
             if hook_path.startswith("{self}"):
                 # assume that each app contains its correct hooks
                 continue
@@ -841,7 +834,6 @@ class _SettingsValidator:
             raise TankError(msg)
 
     def __validate_new_style_template(self, cur_template, fields_str):
-
         #################################################################################
         # NEW SCHOOL VALIDATION USING fields: context, foo, bar, [baz]
         #

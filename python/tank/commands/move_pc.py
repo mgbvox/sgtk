@@ -16,7 +16,6 @@ from .action_base import Action
 import os
 import shutil
 from tank_vendor.shotgun_api3.lib import sgsix
-from tank_vendor.six.moves import input
 
 
 class MovePCAction(Action):
@@ -36,7 +35,6 @@ class MovePCAction(Action):
         )
 
     def _cleanup_old_location(self, log, path):
-
         found_storage_lookup_file = False
         for root, dirs, files in os.walk(path, topdown=False):
             for name in files:
@@ -86,7 +84,6 @@ class MovePCAction(Action):
 
         names = os.listdir(src)
         for name in names:
-
             srcname = os.path.join(src, name)
             dstname = os.path.join(dst, name)
 
@@ -109,7 +106,6 @@ class MovePCAction(Action):
                         log.debug("CHMOD 777 %s" % dstname)
 
     def run_interactive(self, log, args):
-
         if self.tk.pipeline_configuration.is_unmanaged():
             log.error("Cannot move unmanaged configurations!")
             return
@@ -218,7 +214,6 @@ class MovePCAction(Action):
         local_target_path = new_paths[sgsix.platform]
 
         if copy_files:
-
             # check that files exists and that we can carry out the copy etc.
             if not os.path.exists(local_source_path):
                 raise TankError(
@@ -242,7 +237,6 @@ class MovePCAction(Action):
         # first copy the data across
         old_umask = os.umask(0)
         try:
-
             # first copy the files - this is where things can go wrong so start with this
             if copy_files:
                 log.info(

@@ -79,7 +79,6 @@ def subprocess_check_output(*popenargs, **kwargs):
     retcode = process.poll()
 
     if retcode:
-
         logger.debug("Subprocess invocation failed:")
         if popenargs:
             logger.debug("Args  : %s", pprint.pformat(popenargs))

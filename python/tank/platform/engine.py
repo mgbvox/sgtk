@@ -258,7 +258,6 @@ class Engine(TankBundle):
         # note: we make an exception for the shotgun engine which is a
         # special case.
         if self.name != constants.SHOTGUN_ENGINE_NAME:
-
             self.register_command(
                 "Open Log Folder",
                 self.__open_log_folder,
@@ -429,7 +428,6 @@ class Engine(TankBundle):
             else:
                 # our qt import worked!
                 if not self.__global_progress_widget:
-
                     # no window exists - create one!
                     (
                         window,
@@ -456,7 +454,6 @@ class Engine(TankBundle):
                     window.show()
 
                 else:
-
                     # just update the message for the existing window
                     self.__global_progress_widget.set_contents(title, details)
 
@@ -1090,7 +1087,6 @@ class Engine(TankBundle):
 
         # define a generic callback wrapper for metrics logging
         def callback_wrapper(*args, **kwargs):
-
             if properties.get("app"):
                 # Track which app command is being launched
                 command_name = properties.get("short_name") or name
@@ -1273,7 +1269,7 @@ class Engine(TankBundle):
         """
         # return a dictionary grouping all the commands by instance name
         commands_by_instance = {}
-        for (name, value) in self.commands.items():
+        for name, value in self.commands.items():
             app_instance = value["properties"].get("app")
             if app_instance is None:
                 continue
@@ -1580,12 +1576,10 @@ class Engine(TankBundle):
 
         # in the parent directly, get all the font-specific directories
         for font_dir_name in os.listdir(fonts_parent_dir):
-
             # the specific font directory
             font_dir = os.path.join(fonts_parent_dir, font_dir_name)
 
             if os.path.isdir(font_dir):
-
                 # iterate over the font files and attempt to load them
                 #
                 # NOTE: We're loading the ttf files in reverse order to work around
@@ -1596,7 +1590,6 @@ class Engine(TankBundle):
                 # instead of the regular style. So...we're going to install these in
                 # reverse order so that the regular light style is preferred.
                 for font_file_name in reversed(list(os.listdir(font_dir))):
-
                     # only process actual font files. It appears as though .ttf
                     # is the most common extension for use on win/mac/linux so
                     # for now limit to those files.
@@ -2010,7 +2003,7 @@ class Engine(TankBundle):
         :returns: Stylesheet string with replacements applied
         """
         processed_style_sheet = style_sheet
-        for (token, value) in constants.SG_STYLESHEET_CONSTANTS.items():
+        for token, value in constants.SG_STYLESHEET_CONSTANTS.items():
             processed_style_sheet = processed_style_sheet.replace(
                 "{{%s}}" % token, value
             )
@@ -2166,7 +2159,6 @@ class Engine(TankBundle):
             base["wrapper"] = importer.binding
             base["shiboken"] = importer.shiboken
         except:
-
             self.log_exception(
                 "Default engine QT definition failed to find QT. "
                 "This may need to be subclassed."

@@ -162,7 +162,6 @@ def do_localize(log, sg_connection, target_config_path, interaction_interface):
     target_install_path = os.path.join(target_config_path, "install")
 
     try:
-
         # ---- Step 1: Localize all bundles...
 
         if is_version_older(source_core_version, "v0.18.0"):
@@ -182,7 +181,6 @@ def do_localize(log, sg_connection, target_config_path, interaction_interface):
             # handled explicitly later on
 
             for name in os.listdir(source_install_path):
-
                 if name in ["core", "core.backup"]:
                     # skip now and handle separately
                     continue
@@ -203,7 +201,6 @@ def do_localize(log, sg_connection, target_config_path, interaction_interface):
             # Key by descriptor uri, which ensures no repetition.
             descriptors = {}
             for env_name in target_pipeline_config.get_environments():
-
                 env_obj = target_pipeline_config.get_environment(env_name)
 
                 for engine in env_obj.get_engines():
@@ -630,7 +627,6 @@ def _run_unlocalize(
 
     old_umask = os.umask(0)
     try:
-
         # these core config files are directly related to the core
         # and not needed by a configuration
         core_config_file_names = [

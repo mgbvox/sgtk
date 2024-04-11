@@ -1,4 +1,3 @@
-
 from __future__ import print_function
 
 # partially from package six by Benjamin Peterson
@@ -19,10 +18,12 @@ except:
     class ordereddict(OrderedDict):
         pass
 
+
 PY2 = sys.version_info[0] == 2
 PY3 = sys.version_info[0] == 3
 
 if PY3:
+
     def utf8(s):
         return s
 
@@ -33,8 +34,9 @@ if PY3:
         return s
 
 else:
+
     def utf8(s):
-        return s.encode('utf-8')
+        return s.encode("utf-8")
 
     def to_str(s):
         return str(s)
@@ -42,21 +44,23 @@ else:
     def to_unicode(s):
         return unicode(s)
 
+
 if PY3:
-    string_types = str,
-    integer_types = int,
-    class_types = type,
+    string_types = (str,)
+    integer_types = (int,)
+    class_types = (type,)
     text_type = str
     binary_type = bytes
 
     MAXSIZE = sys.maxsize
     unichr = chr
     import io
+
     StringIO = io.StringIO
     BytesIO = io.BytesIO
 
 else:
-    string_types = basestring,
+    string_types = (basestring,)
     integer_types = (int, long)
     class_types = (type, types.ClassType)
     text_type = unicode
@@ -64,19 +68,22 @@ else:
 
     unichr = unichr  # to allow importing
     import StringIO
+
     StringIO = StringIO.StringIO
     import cStringIO
+
     BytesIO = cStringIO.StringIO
 
 if PY3:
-    builtins_module = 'builtins'
+    builtins_module = "builtins"
 else:
-    builtins_module = '__builtin__'
+    builtins_module = "__builtin__"
 
 
 def with_metaclass(meta, *bases):
     """Create a base class with a metaclass."""
     return meta("NewBase", bases, {})
+
 
 DBG_TOKEN = 1
 DBG_EVENT = 2
@@ -91,7 +98,7 @@ def dbg(val=None):
     global _debug
     if _debug is None:
         # set to true or false
-        _debug = os.environ.get('YAMLDEBUG')
+        _debug = os.environ.get("YAMLDEBUG")
         if _debug is None:
             _debug = 0
         else:

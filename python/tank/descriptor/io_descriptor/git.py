@@ -214,7 +214,6 @@ class IODescriptorGit(IODescriptorDownloadable):
                 os.chdir(target_path)
 
             for command in commands:
-
                 if is_windows():
                     # we use git -C to specify the working directory where to execute the command
                     # this option was added in as part of git 1.9

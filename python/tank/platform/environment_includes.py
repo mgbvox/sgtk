@@ -63,7 +63,6 @@ def _resolve_includes(file_name, data, context):
         includes.extend(data[constants.MULTI_INCLUDE_SECTION])
 
     for include in includes:
-
         if "{" in include:
             # it's a template path
             if context is None:
@@ -137,7 +136,7 @@ def _resolve_refs_r(lookup_dict, data):
 
     elif isinstance(data, dict):
         processed_val = {}
-        for (k, v) in data.items():
+        for k, v in data.items():
             processed_val[k] = _resolve_refs_r(lookup_dict, v)
 
     elif isinstance(data, six.string_types) and data.startswith("@"):
@@ -212,7 +211,6 @@ def _process_includes_r(file_name, data, context):
     lookup_dict = {}
     fw_lookup = {}
     for include_file in include_files:
-
         # path exists, so try to read it
         included_data = g_yaml_cache.get(include_file) or {}
 

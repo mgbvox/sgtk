@@ -21,7 +21,7 @@ from . import constants
 from .template_path_parser import TemplatePathParser
 from tank_vendor import six
 from tank_vendor.shotgun_api3.lib import sgsix
-from tank_vendor.six.moves import zip
+
 from tank.util import is_linux, is_macos, is_windows, sgre as re
 
 

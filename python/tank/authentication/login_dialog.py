@@ -111,6 +111,7 @@ class QuerySiteAndUpdateUITask(QtCore.QThread):
         """
         self._site_info.reload(self._url_to_test, self._http_proxy)
 
+
 class LoginDialog(QtGui.QDialog):
     """
     Dialog for getting user credentials.
@@ -423,10 +424,7 @@ class LoginDialog(QtGui.QDialog):
         # When running with PySide/Qt4, the editingFinished event is trigger
         # even if the text field has not changed.
         # This is not the case in PySide2/Qt5 or PySide6/Qt6.
-        if (
-            qt_version_tuple[0] == 4
-            and self._get_current_site() == self.host_selected
-        ):
+        if qt_version_tuple[0] == 4 and self._get_current_site() == self.host_selected:
             logger.debug("_on_site_changed - host has not changed")
             return
 
@@ -497,7 +495,9 @@ class LoginDialog(QtGui.QDialog):
         # - they need to use the legacy login / passphrase to use a PAT with
         #   Autodesk Identity authentication
         if os.environ.get("SGTK_FORCE_STANDARD_LOGIN_DIALOG"):
-            logger.info("Using the standard login dialog with the Flow Production Tracking")
+            logger.info(
+                "Using the standard login dialog with the Flow Production Tracking"
+            )
         else:
             if _is_running_in_desktop():
                 can_use_web = can_use_web or self.site_info.autodesk_identity_enabled
@@ -517,9 +517,7 @@ class LoginDialog(QtGui.QDialog):
             method_selected = session_cache.get_preferred_method(site)
 
         # Make sure that the method_selected is currently supported
-        if (
-            method_selected == auth_constants.METHOD_WEB_LOGIN and not can_use_web
-        ) or (
+        if (method_selected == auth_constants.METHOD_WEB_LOGIN and not can_use_web) or (
             method_selected == auth_constants.METHOD_ASL and not can_use_asl
         ):
             method_selected = None
@@ -531,9 +529,7 @@ class LoginDialog(QtGui.QDialog):
             )
 
         # Make sure that the method_selected is currently supported
-        if (
-            method_selected == auth_constants.METHOD_WEB_LOGIN and not can_use_web
-        ) or (
+        if (method_selected == auth_constants.METHOD_WEB_LOGIN and not can_use_web) or (
             method_selected == auth_constants.METHOD_ASL and not can_use_asl
         ):
             method_selected = None
@@ -707,7 +703,9 @@ class LoginDialog(QtGui.QDialog):
             "Logged In",
             properties={
                 "authentication_method": self.site_info.user_authentication_method,
-                "authentication_experience": auth_constants.method_resolve.get(self.method_selected),
+                "authentication_experience": auth_constants.method_resolve.get(
+                    self.method_selected
+                ),
                 "authentication_interface": "qt_dialog",
                 "authentication_renewal": self._is_session_renewal,
             },
@@ -776,7 +774,10 @@ class LoginDialog(QtGui.QDialog):
 
         # Cleanup the URL and update the GUI.
         if self.method_selected != auth_constants.METHOD_BASIC:
-            if site.startswith("http://") and "SGTK_AUTH_ALLOW_NO_HTTPS" not in os.environ:
+            if (
+                site.startswith("http://")
+                and "SGTK_AUTH_ALLOW_NO_HTTPS" not in os.environ
+            ):
                 site = "https" + site[4:]
             self.ui.site.setEditText(site)
 

@@ -3,8 +3,14 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-__all__ = ["CommentedSeq", "CommentedMap", "CommentedOrderedMap",
-           "CommentedSet", 'comment_attrib', 'merge_attrib']
+__all__ = [
+    "CommentedSeq",
+    "CommentedMap",
+    "CommentedOrderedMap",
+    "CommentedSet",
+    "comment_attrib",
+    "merge_attrib",
+]
 
 """
 stuff to deal with comments and formatting on dict/list/ordereddict/set
@@ -16,11 +22,12 @@ from collections.abc import MutableSet
 
 from .compat import ordereddict
 
-comment_attrib = '_yaml_comment'
-format_attrib = '_yaml_format'
-line_col_attrib = '_yaml_line_col'
-anchor_attrib = '_yaml_anchor'
-merge_attrib = '_yaml_merge'
+comment_attrib = "_yaml_comment"
+format_attrib = "_yaml_format"
+line_col_attrib = "_yaml_line_col"
+anchor_attrib = "_yaml_anchor"
+merge_attrib = "_yaml_merge"
+
 
 class Comment(object):
     # sys.getsize tested the Comment objects, __slots__ make them bigger
@@ -38,11 +45,12 @@ class Comment(object):
 
     def __str__(self):
         if self._end:
-            end = ',\n  end=' + str(self._end)
+            end = ",\n  end=" + str(self._end)
         else:
-            end = ''
+            end = ""
         return "Comment(comment={0},\n  items={1}{2})".format(
-            self.comment, self._items, end)
+            self.comment, self._items, end
+        )
 
     @property
     def items(self):
@@ -135,6 +143,7 @@ class Anchor(object):
         self.value = None
         self.always_dump = False
 
+
 class CommentedBase(object):
     @property
     def ca(self):
@@ -173,12 +182,13 @@ class CommentedBase(object):
         """
         from .error import Mark
         from .tokens import CommentToken
+
         pre_comments = self._yaml_get_pre_comment()
-        if comment[-1] == '\n':
+        if comment[-1] == "\n":
             comment = comment[:-1]  # strip final newline if there
         start_mark = Mark(None, None, None, indent, None, None)
-        for com in comment.split('\n'):
-            pre_comments.append(CommentToken('# ' + com + '\n', start_mark, None))
+        for com in comment.split("\n"):
+            pre_comments.append(CommentToken("# " + com + "\n", start_mark, None))
 
     @property
     def fa(self):
@@ -194,13 +204,14 @@ class CommentedBase(object):
         """
         from .tokens import CommentToken
         from .error import Mark
+
         if column is None:
             column = self._yaml_get_column(key)
-        if comment[0] != '#':
-            comment = '# ' + comment
+        if comment[0] != "#":
+            comment = "# " + comment
         if column is None:
-            if comment[0] == '#':
-                comment = ' ' + comment
+            if comment[0] == "#":
+                comment = " " + comment
                 column = 0
         start_mark = Mark(None, None, None, column, None, None)
         ct = [CommentToken(comment, start_mark, None), None]
@@ -237,8 +248,11 @@ class CommentedBase(object):
         self.anchor.value = value
         self.anchor.always_dump = always_dump
 
+
 class CommentedSeq(list, CommentedBase):
-    __slots__ = [Comment.attrib, ]
+    __slots__ = [
+        Comment.attrib,
+    ]
 
     def _yaml_add_comment(self, comment, key=NoComment):
         if key is not NoComment:
@@ -255,7 +269,7 @@ class CommentedSeq(list, CommentedBase):
     def _yaml_get_column(self, key):
         column = None
         sel_idx = None
-        pre, post = key-1, key+1
+        pre, post = key - 1, key + 1
         if pre in self.ca.items:
             sel_idx = pre
         elif post in self.ca.items:
@@ -282,7 +296,9 @@ class CommentedSeq(list, CommentedBase):
 
 
 class CommentedMap(ordereddict, CommentedBase):
-    __slots__ = [Comment.attrib, ]
+    __slots__ = [
+        Comment.attrib,
+    ]
 
     def _yaml_add_comment(self, comment, key=NoComment, value=NoComment):
         """values is set to key to indicate a value attachment of comment"""
@@ -348,6 +364,7 @@ class CommentedMap(ordereddict, CommentedBase):
         """multi-level get that expects dicts within dicts"""
         if not isinstance(key, list):
             return self.get(key, default)
+
         # assume that the key is a list of recursively accessible dicts
         def get_one_level(key_list, level, d):
             if not list_ok:
@@ -355,8 +372,8 @@ class CommentedMap(ordereddict, CommentedBase):
             if level >= len(key_list):
                 if level > len(key_list):
                     raise IndexError
-                return d[key_list[level-1]]
-            return get_one_level(key_list, level+1, d[key_list[level-1]])
+                return d[key_list[level - 1]]
+            return get_one_level(key_list, level + 1, d[key_list[level - 1]])
 
         try:
             return get_one_level(key, 1, self)
@@ -392,13 +409,14 @@ class CommentedMap(ordereddict, CommentedBase):
         self.merge.extend(value)
 
 
-
 class CommentedOrderedMap(CommentedMap):
-    __slots__ = [Comment.attrib, ]
+    __slots__ = [
+        Comment.attrib,
+    ]
 
 
 class CommentedSet(MutableSet, CommentedMap):
-    __slots__ = [Comment.attrib, 'odict']
+    __slots__ = [Comment.attrib, "odict"]
 
     def __init__(self, values=None):
         self.odict = ordereddict()
@@ -425,4 +443,4 @@ class CommentedSet(MutableSet, CommentedMap):
         return len(self.odict)
 
     def __repr__(self):
-        return 'set({0!r})'.format(self.odict.keys())
+        return "set({0!r})".format(self.odict.keys())

@@ -10,7 +10,7 @@
 import json
 import os
 
-from tank_vendor.six.moves import urllib
+import urllib
 
 from .downloadable import IODescriptorDownloadable
 from ..errors import TankError, TankDescriptorError

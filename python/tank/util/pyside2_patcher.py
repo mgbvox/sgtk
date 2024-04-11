@@ -83,7 +83,6 @@ class PySide2Patcher(object):
 
     @classmethod
     def _fix_QCoreApplication_api(cls, wrapper_class, original_class):
-
         # Enum values for QCoreApplication.translate's encode parameter.
         wrapper_class.CodecForTr = 0
         wrapper_class.UnicodeUTF8 = 1
@@ -175,7 +174,6 @@ class PySide2Patcher(object):
 
     @classmethod
     def _patch_QStandardItemModel(cls, QtGui):
-
         original_QStandardItemModel = QtGui.QStandardItemModel
 
         class SignalWrapper(object):
@@ -200,7 +198,6 @@ class PySide2Patcher(object):
 
     @classmethod
     def _patch_QMessageBox(cls, QtGui):
-
         # Map for all the button types
         button_list = [
             QtGui.QMessageBox.Ok,
@@ -277,7 +274,6 @@ class PySide2Patcher(object):
         original_QMessageBox = QtGui.QMessageBox
 
         class QMessageBox(original_QMessageBox):
-
             critical = _method_factory(
                 QtGui.QMessageBox.Critical, QtGui.QMessageBox.critical
             )
@@ -295,7 +291,6 @@ class PySide2Patcher(object):
 
     @classmethod
     def _patch_QDesktopServices(cls, QtGui, QtCore):
-
         # This is missing in certain versions of PySide 2. Add it in.
         if hasattr(QtGui, "QDesktopServices"):
             return

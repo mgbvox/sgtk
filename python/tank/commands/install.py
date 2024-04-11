@@ -98,7 +98,6 @@ class InstallAppAction(Action):
         preserve_yaml = not use_legacy_parser
 
         if len(args) != 3:
-
             log.info(
                 "This command adds an app to an existing environment and engine. "
                 "You can either add apps from the Toolkit App Store, git or directly from disk."
@@ -213,7 +212,6 @@ class InstallAppAction(Action):
         self._run(log, env_name, engine_instance_name, app_name, preserve_yaml)
 
     def _run(self, log, env_name, engine_instance_name, app_name, preserve_yaml):
-
         log.info("")
         log.info("Welcome to the Flow Production Tracking App installer!")
         log.info(
@@ -415,7 +413,6 @@ class InstallEngineAction(Action):
         preserve_yaml = not use_legacy_parser
 
         if len(args) != 2:
-
             log.info(
                 "This command adds an engine to an existing environment. "
                 "You can either add engines from the Toolkit App Store or from git source control."
@@ -539,8 +536,8 @@ class InstallEngineAction(Action):
             # run descriptor factory method
             log.info("Connecting to git...")
             location = {"type": "git", "path": engine_name}
-            engine_descriptor = self.tk.pipeline_configuration.get_latest_engine_descriptor(
-                location
+            engine_descriptor = (
+                self.tk.pipeline_configuration.get_latest_engine_descriptor(location)
             )
             log.info(
                 "Latest tag in repository '%s' is %s."
@@ -559,8 +556,8 @@ class InstallEngineAction(Action):
             # this is an app store app!
             log.info("Connecting to the Toolkit App Store...")
             location = {"type": "app_store", "name": engine_name}
-            engine_descriptor = self.tk.pipeline_configuration.get_latest_engine_descriptor(
-                location
+            engine_descriptor = (
+                self.tk.pipeline_configuration.get_latest_engine_descriptor(location)
             )
             log.info(
                 "Latest approved App Store Version is %s." % engine_descriptor.version

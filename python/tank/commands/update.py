@@ -26,7 +26,6 @@ class AppUpdatesAction(Action):
     """
 
     def __init__(self):
-
         Action.__init__(
             self,
             "updates",
@@ -275,7 +274,6 @@ class AppUpdatesAction(Action):
         processed_items = []
 
         if external:
-
             # try to load external file
             external = os.path.expanduser(external)
             if not os.path.exists(external):
@@ -323,7 +321,6 @@ class AppUpdatesAction(Action):
                 )
 
         else:
-
             # process non-external config
             if env_name is None:
                 env_names_to_process = pc.get_environments()
@@ -359,7 +356,6 @@ class AppUpdatesAction(Action):
         summary = []
         for x in processed_items:
             if x["was_updated"]:
-
                 summary.append(
                     "%s was updated from %s to %s"
                     % (
@@ -433,7 +429,6 @@ class AppUpdatesAction(Action):
                 engines_to_process = []
 
         for engine in engines_to_process:
-
             if self._terminate_requested:
                 break
 

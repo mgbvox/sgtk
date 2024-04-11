@@ -9,7 +9,7 @@
 # not expressly granted therein are reserved by Shotgun Software Inc.
 
 import os
-from distutils.version import StrictVersion
+import re
 
 from .action_base import Action
 from . import core_localize
@@ -23,6 +23,73 @@ from .setup_project_core import run_project_setup
 from .setup_project_params import ProjectSetupParameters
 from .interaction import YesToEverythingInteraction
 from tank_vendor.shotgun_api3.lib import sgsix
+
+
+class StrictVersion:
+    """
+    Version numbering for anal retentives and software idealists.
+    Implements the standard interface for version number classes as
+    described above. A version number consists of two or three
+    dot-separated numeric components, with an optional "pre-release" tag
+    on the end. The pre-release tag consists of the letter 'a' or 'b'
+    followed by a number. If the numeric components of two version
+    numbers are equal, then one with a pre-release tag will always
+    be deemed earlier (lesser) than one without.
+    """
+
+    version_re = re.compile(r"^(\d+)\.(\d+)(?:\.(\d+))?([ab](\d+))?$")
+
+    def __init__(self, version):
+        self.parse(version)
+
+    def parse(self, version):
+        match = self.version_re.match(version)
+        if not match:
+            raise ValueError("Invalid version number: '%s'" % version)
+
+        # Extract matches with optional groups handled correctly
+        major, minor, patch, prerelease, prerelease_num = match.groups()
+        self.version = (int(major), int(minor), int(patch))
+        self.prerelease = (prerelease, int(prerelease_num) if prerelease_num else 0)
+
+    def __repr__(self):
+        return "%s(%r)" % (self.__class__.__name__, self.__str__())
+
+    def __str__(self):
+        version = ".".join(map(str, self.version))
+        if self.prerelease[0]:
+            version += self.prerelease[0] + str(self.prerelease[1])
+        return version
+
+    def __lt__(self, other):
+        if not isinstance(other, StrictVersion):
+            return NotImplemented
+
+        if self.version != other.version:
+            return self.version < other.version
+        if not self.prerelease[0] and other.prerelease[0]:
+            return False
+        if self.prerelease[0] and not other.prerelease[0]:
+            return True
+        return self.prerelease < other.prerelease
+
+    def __eq__(self, other):
+        if not isinstance(other, StrictVersion):
+            return NotImplemented
+
+        return self.version == other.version and self.prerelease == other.prerelease
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __gt__(self, other):
+        return not self.__lt__(other) and not self.__eq__(other)
+
+    def __le__(self, other):
+        return self.__lt__(other) or self.__eq__(other)
+
+    def __ge__(self, other):
+        return self.__gt__(other) or self.__eq__(other)
 
 
 class SetupProjectFactoryAction(Action):
@@ -372,12 +439,10 @@ class SetupProjectWizard(object):
         # by default, the wizard will also try to help out with the creation of
         # the project root folder if it doesn't already exist!
         if create_folders:
-
             # make sure name is valid before starting to create directories...
             self._params.validate_project_disk_name(project_disk_name)
             self._log.debug("Will try to create project folders on disk...")
             for s in self._params.get_required_storages():
-
                 # get the full path
                 proj_path = self._params.preview_project_path(
                     s, project_disk_name, sgsix.platform
@@ -752,7 +817,6 @@ class SetupProjectWizard(object):
             self._params.get_distribution_mode()
             == ProjectSetupParameters.CENTRALIZED_CONFIG
         ):
-
             # ---- check if we should run the localization afterwards
 
             # note - when running via the wizard, toolkit script credentials are

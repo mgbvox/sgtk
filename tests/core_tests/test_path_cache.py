@@ -34,7 +34,7 @@ from tank.util import is_windows
 import tank
 
 from tank.util import StorageRoots
-from tank_vendor.six.moves import range
+
 
 log = LogManager.get_logger(__name__)
 
